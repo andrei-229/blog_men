@@ -17,24 +17,24 @@
 <header>
     <nav class="navbar navbar-light bg-light">
         {% if current_user.is_authenticated: %}
-            {% if current_user.icon %}
+            {% if current_user.avatar %}
                 <div class="profile">
-                    <img src='{{ current_user.icon }}' width="48" height="48" style="float: right; border-radius: 20px;" class="icon">
-                    <a class='user-name' style="display: flex; text-decoration: none; color: #000; font-size: 20px; justify-content: center; margin-top: 7px; margin-right: 7px;" href="/profile">{{ current_user.nickname }}</a>
+                    <img src='{{ current_user.avatar }}' width="48" height="48" style="float: right; border-radius: 20px;" class="icon">
+                    <a class='user-name' style="display: flex; text-decoration: none; color: #000; font-size: 20px; justify-content: center; margin-top: 7px; margin-right: 7px;" href="/profile">{{ current_user.username }}</a>
                 </div>
             {% else %}
                 <div class="profile">
                     <img src='{{ url_for("static", filename="img/user-icon.png") }}' width="48" height="48" style="float: right; border-radius: 20px;" class="icon">
-                    <a class='user-name' style="display: flex; text-decoration: none; color: #000; font-size: 20px; justify-content: center; margin-top: 7px; margin-right: 7px;" href="/profile">{{ current_user.nickname }}</a>
+                    <a class='user-name' style="display: flex; text-decoration: none; color: #000; font-size: 20px; justify-content: center; margin-top: 7px; margin-right: 7px;" href="/profile">{{ current_user.username }}</a>
                 </div>
             {% endif %}
         {% else %}
             <p class="logReg">
-                <a class="btn btn-outline-secondary " href="/">Дом</a>
-                <a class="btn btn-outline-secondary" href="/register">Регистрация</a>
-                <a class="btn btn-outline-secondary " href="/login">Вход</a>
+                <a class="btn btn-outline-secondary" href="/register">Registration</a>
+                <a class="btn btn-outline-secondary " href="/login">Login</a>
             </p>
         {% endif %}
+        <a class="btn btn-outline-secondary " href="/">Home</a>
     </nav>
 </header>
 <!-- Begin page content -->
