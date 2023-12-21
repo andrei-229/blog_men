@@ -20,7 +20,10 @@
             {% if current_user.avatar %}
                 <div class="profile">
                     <img src='{{ current_user.avatar }}' width="48" height="48" style="float: right; border-radius: 20px;" class="icon">
-                    <a class='user-name' style="display: flex; text-decoration: none; color: #000; font-size: 20px; justify-content: center; margin-top: 7px; margin-right: 7px;" href="/profile">{{ current_user.username }}</a>
+                    <a class='user-name' style="display: flex; text-decoration: none; color: #000; font-size: 20px; justify-content: center; margin-top: 7px; margin-right: 7px;" href="/profile">
+                        {{ current_user.username }}<br>
+                        {{ current_user.email }}
+                    </a>
                 </div>
             {% else %}
                 <div class="profile">
