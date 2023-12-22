@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, redirect, render_template, request, url_for, flash
+from flask import Flask, redirect, render_template, request, url_for, flash, render_template_string
 from flask_login import LoginManager, current_user, login_required, login_user, logout_user
 from data import db_session
 from data.users import User
@@ -73,30 +73,74 @@ def index():
     
     
 @app.route('/register', methods=['GET', 'POST'])
-def register():
-    form = RegisterForm()
-    if form.validate_on_submit():
+def register2():
+    form = RegisterForm(request.form)
+    if request.method == 'POST' and form.validate_on_submit:
         user = User()
-        if form.password.data != form.password_again.data:
-            return render_template('register.html',
-                                   title='Регистрация',
-                                   form=form,
-                                   message="Пароли не совпадают")
         db_sess = db_session.create_session()
-        if db_sess.query(User).filter((User.email == form.email.data) | (User.username == form.nickname.data)).first():
-            return render_template('register.html', 
-                                   title='Регистрация',
-                                   form=form,
-                                   message="Такой пользователь уже есть")
-        user.username = form.nickname.data
-        user.email = form.email.data
-        user.set_password(form.password.data)
+        email = request.form.get('email')
+        nickname = request.form.get('nickname')
+        password = request.form.get('password')
+        password_again = request.form.get('password_again')
+        about = request.form.get('about')
+        if password != password_again:
+            return render_template('register2.html', error='Разные пароли')
+        if db_sess.query(User).filter((User.email == email) | (User.username == nickname)).first():
+            return render_template('register2.html', error="Такой пользователь уже есть")
+        user.username = nickname
+        user.email = email
+        user.set_password(password)
         user.avatar = '/static/img/user-icon.png'
-        user.userdescription = form.about.data
+        user.userdescription = about
         db_sess.add(user)
         db_sess.commit()
+        
+        print(email)
         return redirect('/')
-    return render_template('register.html', title='Регистрация', form=form)
+    return render_template('register2.html', error='')
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login2():
+    if request.method == 'POST':
+        email = request.form.get('email')
+        password = request.form.get('password')
+        remember_me = True  if request.form.get('remember_me') == 'on' else False
+        db_sess = db_session.create_session()
+        user = db_sess.query(User).filter(
+            User.email == email).first()
+        if user and user.check_password(password):
+            login_user(user, remember=remember_me)
+            return redirect("/")
+        return render_template('login2.html')
+    return render_template('login2.html')
+    
+    
+# @app.route('/register', methods=['GET', 'POST'])
+# def register():
+#     form = RegisterForm()
+#     if form.validate_on_submit():
+#         user = User()
+#         if form.password.data != form.password_again.data:
+#             return render_template('register.html',
+#                                    title='Регистрация',
+#                                    form=form,
+#                                    message="Пароли не совпадают")
+#         db_sess = db_session.create_session()
+#         if db_sess.query(User).filter((User.email == form.email.data) | (User.username == form.nickname.data)).first():
+#             return render_template('register.html', 
+#                                    title='Регистрация',
+#                                    form=form,
+#                                    message="Такой пользователь уже есть")
+#         user.username = form.nickname.data
+#         user.email = form.email.data
+#         user.set_password(form.password.data)
+#         user.avatar = '/static/img/user-icon.png'
+#         user.userdescription = form.about.data
+#         db_sess.add(user)
+#         db_sess.commit()
+#         return redirect('/')
+#     return render_template('register.html', title='Регистрация', form=form)
 
 
 @app.route('/login', methods=['GET', 'POST'])

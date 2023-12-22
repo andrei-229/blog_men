@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous">
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet" type="text/css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+                crossorigin="anonymous"></script>
+    <title>Регистрация</title>
+</head>
+<body bgcolor='#c7e2ff'>
+<header>
+    <nav class="navbar navbar-light bg-light"><p>
+            <a class="btn btn-outline-secondary" href="/register">Регистрация</a>
+            <a class="btn btn-outline-secondary " href="/login">Вход</a>
+            <a class="btn btn-outline-secondary " href="/">Home</a>
+        </p>
+    </nav>
+</header>
+<!-- Begin page content -->
+<main role="main" class="container">
+<h1>Регистрация</h1>
+<form action="" method="POST">
+    <p>
+        <label>Email <input class="form-control" type="email" name="email"></label><br>
+    </p>
+    <p>
+        <label>Password <input class="form-control" type="password" name="password"></label><br>
+    </p>
+    <p>
+        <label>Again password <input class="form-control" type="password" name="password_again"></label><br>
+    </p>
+    <p>
+        <label>Nickname <input class="form-control" type="text" name="nickname"></label><br>
+    </p>
+    <p>
+        <label>About <input class="form-control" type="text" name="about"></label><br>
+    </p>
+    <p class="--bs-danger-text-emphasis">
+        <span class="--bs-danger-text-emphasis">{{ error }}</span>
+    </p>
+    <p><button type="submit">Register</button></p>
+</form>
+</main>
+</body>
+</html>
